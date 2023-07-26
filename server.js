@@ -32,6 +32,10 @@ app.get('/', (req, res) => {
   return res.status(200).json({ success: true });
 });
 
+app.get('/*', (req, res) => {
+  return res.sendFile(path.join(__dirname, 'views/404.html'));
+});
+
 app.listen(port, () => {
   console.log(`Server is listening to ${port}.`);
 });
