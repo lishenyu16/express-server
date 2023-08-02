@@ -333,7 +333,7 @@ function jwtSignUser(user) {
 // });
 router.get('/users', async (req, res) => {
   try {
-    const selectSql = `select * from users;`;
+    const selectSql = `select user_Id, username,email from users;`;
     const { rows } = await db.query(selectSql);
     return res.status(200).send(rows);
   } catch (err) {
