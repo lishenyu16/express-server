@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('combined', { stream: winston.stream }));
 
 app.use('/static', express.static('public')); //e.g: http://localhost:3000/static/images/kitten.jpg
+app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, '../dist')));
 
 router(app);
