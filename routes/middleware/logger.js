@@ -4,7 +4,7 @@ const appRoot = require('app-root-path');
 const options = {
   file: {
     level: 'info',
-    filename: process.env.NODE_ENV == 'production' ? `${appRoot}/../../logs/app.log` : `../..//logs/app.log`,
+    filename: `${appRoot}/../logs/app.log`,
     handleExceptions: true,
     json: true,
     maxsize: 5242880, // 5MB
