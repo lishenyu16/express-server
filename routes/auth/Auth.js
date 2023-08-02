@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-//const pool = require('../../db/index');
+const db = require('../../config/db');
 const jwt = require('jsonwebtoken');
 const winston = require('../middleware/logger');
 // const nodemailer = require('nodemailer');
@@ -331,21 +331,14 @@ function jwtSignUser(user) {
 //     })
 //   }
 // });
-router.post('/visitors', async (req, res) => {
-  console.log('req ip: ', req.ip);
-  const { ip, city, state, country, latitude, longitude, time } = req.body;
-  winston.info(`ip: ${req.body.ip}`);
+router.get('/users', async (req, res) => {
   try {
-    //const updateSql = `insert into visitor_records(ip,city,state,country,latitude,longitude,time) values($1,$2,$3,$4,$5,$6,$7)`;
-    //await pool.query(updateSql, [ip, city, state, country, latitude, longitude, time]);
-    return res.status(200).json({
-      success: true,
-      ip,
-    })
-  }
-  catch (err) {
+    const selectSql = `select * from users;`;
+    const { rows } = await db.query(selectSql);
+    return res.status(200).send(rows);
+  } catch (err) {
     console.log(err);
   }
-})
+});
 
 module.exports = router;

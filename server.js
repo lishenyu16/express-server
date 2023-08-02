@@ -28,12 +28,8 @@ app.use('/robots.txt', function (req, res, next) {
   res.send('User-agent: *\nDisallow: /');
 });
 
-app.get('/', (req, res) => {
-  return res.status(200).json({ success: true });
-});
-
 app.get('/*', (req, res) => {
-  return res.sendFile(path.join(__dirname, 'views/404.html'));
+  return res.status(404).sendFile(path.join(__dirname, 'views/404.html'));
 });
 
 app.listen(port, () => {
