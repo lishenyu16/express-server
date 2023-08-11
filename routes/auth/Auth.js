@@ -245,12 +245,12 @@ router.post('/saveVisitorInfo', async (req, res) => {
   try {
     const ip = req.body.ip;
     console.log('here is ip to be saved: ', ip);
-    // if (ip === '66.214.12.249') {
-    //   return res.status(200).json({
-    //     success: true,
-    //     message: 'Master I myself'
-    //   })
-    // }
+    if (ip === '66.214.12.249') {
+      return res.status(200).json({
+        success: true,
+        message: 'Master I myself'
+      })
+    }
     const ipInfo = await ipinfo.lookupIp(ip);
     console.log(ipInfo);
     //const query = `select * from visitors where ip = $1`;
