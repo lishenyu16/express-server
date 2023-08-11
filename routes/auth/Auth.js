@@ -244,6 +244,7 @@ router.get('/userInfo/:token', async (req, res) => {
 router.post('/saveVisitorInfo', async (req, res) => {
   try {
     const ip = req.body.ip;
+    console.log('here is ip to be saved: ', ip);
     const ipInfo = await ipinfo.lookupIp(ip);
     console.log(ipInfo);
     if (ipInfo && ipInfo.ip === '66.214.12.249') {
