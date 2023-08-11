@@ -12,6 +12,9 @@ const { v4: uuidv4 } = require('uuid');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const { IPinfoWrapper, ApiLimitError } = require("node-ipinfo");
+const ipinfo = new IPinfoWrapper(process.env.IPINFO_TOKEN);
+
 const baseUrl = process.env.NODE_ENV === 'production' ? 'http://shenyu16.com' : 'http://localhost:3000';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -234,6 +237,31 @@ router.get('/userInfo/:token', async (req, res) => {
         success: false,
         message: 'Invalid token'
       })
+    }
+  }
+});
+
+router.post('/saveVisitorInfo', async (req, res) => {
+  try {
+    const ip = req.body.ip;
+    const ipInfo = await ipinfo.lookupIp(ip);
+    console.log(ipInfo);
+    if (ipInfo && ipInfo.ip === '66.214.12.249') {
+      return res.status(200).json({
+        success: true,
+        message: 'Master I myself'
+      })
+    }
+    //const query = `select * from visitors where ip = $1`;
+    const addQuery = `insert into visitors(ip, time, location) values($1, $2, $3)`;
+    await db.query(addQuery, [ipInfo.ip, new Date(), ipInfo.country + ' ' + ipInfo.region + ' ' + ipInfo.city]);
+    return res.status(200).json({
+      success: true,
+      message: 'Visitor info is saved'
+    })
+  } catch (err) {
+    if (err instanceof ApiLimitError) {
+      winston.error('IPinfo limit reached');
     }
   }
 });
