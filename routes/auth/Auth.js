@@ -13,7 +13,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const { IPinfoWrapper, ApiLimitError } = require("node-ipinfo");
-const ipinfo = new IPinfoWrapper(process.env.IPINFO_TOKEN);
+const ipinfo = new IPinfoWrapper(process.env.IPINFO_TOKEN, null, 5000);
 
 const baseUrl = process.env.NODE_ENV === 'production' ? 'http://shenyu16.com' : 'http://localhost:3000';
 
