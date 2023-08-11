@@ -245,25 +245,30 @@ router.post('/saveVisitorInfo', async (req, res) => {
   try {
     const ip = req.body.ip;
     console.log('here is ip to be saved: ', ip);
+    // if (ip === '66.214.12.249') {
+    //   return res.status(200).json({
+    //     success: true,
+    //     message: 'Master I myself'
+    //   })
+    // }
     const ipInfo = await ipinfo.lookupIp(ip);
     console.log(ipInfo);
-    if (ipInfo && ipInfo.ip === '66.214.12.249') {
-      return res.status(200).json({
-        success: true,
-        message: 'Master I myself'
-      })
-    }
     //const query = `select * from visitors where ip = $1`;
     const addQuery = `insert into visitors(ip, time, location) values($1, $2, $3)`;
-    await db.query(addQuery, [ipInfo.ip, new Date(), ipInfo.country + ' ' + ipInfo.region + ' ' + ipInfo.city]);
+    await db.query(addQuery, [ip, new Date(), `${ipInfo.country} ${ipInfo.region} ${ipInfo.city}`]);
     return res.status(200).json({
       success: true,
       message: 'Visitor info is saved'
     })
   } catch (err) {
+    console.log(err);
     if (err instanceof ApiLimitError) {
       winston.error('IPinfo limit reached');
     }
+    return res.status(400).json({
+      success: false,
+      message: err
+    });
   }
 });
 // router.post('/forgotPassword', async (req, res) => {
