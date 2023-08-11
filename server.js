@@ -30,7 +30,8 @@ app.use('/robots.txt', function (req, res, next) {
 });
 
 app.get('/*', (req, res) => {
-  return res.status(404).sendFile(path.join(__dirname, 'views/404.html'));
+  res.sendFile(path.join(__dirname, '../dist/index.html')); //browser will auto independently initiate req for other JS files
+  //return res.status(404).sendFile(path.join(__dirname, 'views/404.html'));
 });
 
 app.listen(port, () => {
