@@ -1,5 +1,5 @@
 # Node.js Express Web Server with PostgreSQL and JWT Authentication
-Server source code for http://shenyu16.com
+Server source code for http://shenyu16.com  
 Node + Express + PostgreSQL
 
 ## Table of Contents
