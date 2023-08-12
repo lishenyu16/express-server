@@ -1,4 +1,5 @@
 # Node.js Express Web Server with PostgreSQL and JWT Authentication
+Node + Express + PostgreSQL
 
 ## Table of Contents
 - [Features](#features)
