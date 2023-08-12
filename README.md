@@ -8,12 +8,12 @@
 - [Usage](#usage)
 
 <a name="features"></a>
-## Features
+## Features already implemented
 
-- RESTful API endpoints
-- User authentication using JWT
-- CRUD operations with PostgreSQL
-- Express middleware for error handling and request parsing
+- Login, Register, Email Confirmation
+- Cookie for JWT 
+- Timeline
+- Visitors tracking with ip, location..
 
 <a name="requirements"></a>
 ## Requirements
