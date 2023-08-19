@@ -38,7 +38,7 @@ router.post('/editArticle', isAuth, async (req, res) => {
     const { userId } = req;
     const { articleId, title, keywords, description, img_url, content } = req.body;
     const query_sql = `select author_id from articles where article_id = $1`;
-    const res1 = await db.query(query_sql, articleId);
+    const res1 = await db.query(query_sql, [articleId]);
     if (res1.rows.length === 0 || res1.rows[0].author_id !== userId) {
       return res.status(401).json({
         success: false,
@@ -49,15 +49,17 @@ router.post('/editArticle', isAuth, async (req, res) => {
     const update_sql = `
       update articles 
       set title = $1, keywords = $2, last_modified = current_timestamp, description = $3, img_url = $4, content = $5
-      where article_id = $6
+      where article_id = $6 returning article_id
       `;
-    await db.query(update_sql, [title, keywords, description, img_url, content]);
+    const { rows } = await db.query(update_sql, [title, keywords, description, img_url, content, articleId]);
     return res.status(200).json({
       success: true,
-      message: 'Successfully saved the article'
+      message: 'Successfully saved the article',
+      article_id: rows[0].article_id
     });
   } catch (err) {
     winston.error(err);
+    console.log(err);
     return res.status(400).json({
       success: false,
       message: 'Failed to edit this article.'
