@@ -71,7 +71,7 @@ router.post('/saveArticle', isAuth, async (req, res) => {
   try {
     const { userId, username } = req;
     const { title, keywords, description, content, img_url } = req.body;
-    const insertSql = `insert into articles(title, keywords, author, created_on, last_modified, description, img_url, content, author_id,) 
+    const insertSql = `insert into articles(title, keywords, author, created_on, last_modified, description, img_url, content, author_id) 
     values($1, $2, $3, current_timestamp, current_timestamp, $4, $5, $6, $7) returning article_id`;
 
     const result = await db.query(insertSql, [title, keywords, username, description, img_url, content, userId]);
